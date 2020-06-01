@@ -1,34 +1,40 @@
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
+const { Schema } = mongoose
+const { Types } = Schema
+
+// user model
+const userSchema = new Schema({
   firstName: {
       type: String,
       minlength: 3,
-      require: [true, "can't be empty"],
-      match: [/^[a-zA-Z0-9]+$/, 'is invalid']
+      require: true,
+      trim: true,
+      lowercase: true
     },
     lastName: {
       type: String,
-      minlength: 3,
-      require: [true, "can't be empty"],
-      match: [/^[a-zA-Z0-9]+$/, 'is invalid']
+      require: true,
+      trim: true,
+      lowercase: true
     },
     email: {
       type: String,
+      index: true,
       lowercase: true,
-      match: [/\S+@\S+\.\S+/, 'is invalid'],
-      require: [true, "can't be empty"],
-      trim: true
+      require: true,
+      trim: true,
+      unique: true
     },
     password: {
       type: String,
-      require: [true, "can't be empty"],
-      trim: true
+      require: true,
+      trim: true,
+      select: false
     },
     role: {
       type: String,
-      enum: ['Admin', 'User'],
-      default: 'User',
+      enum: ['User'],
       required: true
     },
     carbonFootprint: {
@@ -37,28 +43,10 @@ const userSchema = new mongoose.Schema({
       default: 3.87
     },
     subscription: {
-      isActive: {
-        type: Boolean,
-        default: false,
-        require: true
-      },
-      plan: {
-        type: String,
-        enum: ['none', 'Basic', 'Silver', 'Gold'],
-        default: 'none',
-        require: true
-      },
-      cost: {
-        type: Number,
-        require: true,
-        default: 0
-      },
-      renewalDate: {
-        type: String,
-        require: true,
-        default: "none"
-      }
+      type: Types.ObjectId,
+      ref: 'subscription'
     }
 })
 
-module.exports = mongoose.model('users', userSchema)
+module.exports =  mongoose.model('users', userSchema)
+

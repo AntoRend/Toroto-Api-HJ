@@ -1,0 +1,4 @@
+applications:
+- name: toroto-api-hj
+  random-route: false
+  memory: 128M

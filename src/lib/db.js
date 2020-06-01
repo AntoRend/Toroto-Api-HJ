@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+// database URL 
 const db_user = 'ltonnito'
 const db_Password = 'Kodemia123'
 const db_host = 'kodemiaseptimag-bnup1.mongodb.net'
